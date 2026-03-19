@@ -43,5 +43,8 @@ jobs:
       - name: Set up database
         run: bin/rails db:create db:migrate
 
+      - name: Build Tailwind CSS
+        run: bin/rails tailwindcss:build
+
       - name: Run RSpec
         run: bundle exec rspec
