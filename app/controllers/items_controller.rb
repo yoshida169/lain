@@ -3,7 +3,13 @@ class ItemsController < ApplicationController
 
   # GET /items or /items.json
   def index
-    @items = Item.all
+    @tags = Tag.order(:name)
+    if params[:tag].present?
+      tag_names = Array(params[:tag])
+      @items = Item.joins(:tags).where(tags: { name: tag_names }).distinct
+    else
+      @items = Item.all
+    end
   end
 
   # GET /items/1 or /items/1.json
@@ -65,6 +71,6 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:title, :content)
+      params.require(:item).permit(:title, :content, :tag_names)
     end
 end
