@@ -1,5 +1,7 @@
 {
   "enabledPlugins": {
-    "voltagent-biz@voltagent-subagents": true
+    "voltagent-biz@voltagent-subagents": true,
+    "voltagent-lang@voltagent-subagents": true,
+    "voltagent-core-dev@voltagent-subagents": true
   }
 }
