@@ -1,8 +1,10 @@
-FROM ruby:3.2
+FROM ruby:3.2.5
 
-RUN apt-get update -qq && apt-get install -y nodejs yarn
-
-RUN apt-get install -y default-mysql-client
+RUN apt-get update -qq && apt-get install -y \
+  default-libmysqlclient-dev \
+  default-mysql-client \
+  pkg-config \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
