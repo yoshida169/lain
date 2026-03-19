@@ -269,7 +269,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)
-  puma (>= 5.0)
+  puma (>= 5.0, < 8.0)
   rails (~> 7.2.0)
   selenium-webdriver
   sprockets-rails
@@ -277,6 +277,9 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+
+RUBY VERSION
+   ruby 3.2.5p208
 
 BUNDLED WITH
    2.4.19
