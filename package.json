@@ -21,6 +21,8 @@
     "jsdom": "^29.0.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2",
+    "vite": "^8.0.1",
+    "vite-plugin-ruby": "^5.2.0",
     "vitest": "^4.1.0"
   },
   "dependencies": {
