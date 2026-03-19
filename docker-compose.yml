@@ -1,15 +1,14 @@
 services:
   db:
-    image: mysql:8.0
+    image: postgres:16
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: lain_development
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: lain_development
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
   web:
     build: .
@@ -21,7 +20,9 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: mysql2://user:password@db/lain_development
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST: db
 
 volumes:
   db_data:

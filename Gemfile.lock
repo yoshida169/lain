@@ -137,7 +137,6 @@ GEM
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.7.3)
-    mysql2 (0.5.6)
     net-imap (0.6.3)
       date
       net-protocol
@@ -156,6 +155,10 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.1-x86_64-linux-gnu)
       racc (~> 1.4)
+    pg (1.6.3-aarch64-linux)
+    pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-darwin)
+    pg (1.6.3-x86_64-linux)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -268,7 +271,7 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
-  mysql2 (~> 0.5)
+  pg (~> 1.1)
   puma (>= 5.0, < 8.0)
   rails (~> 7.2.0)
   selenium-webdriver
