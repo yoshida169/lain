@@ -1,0 +1,31 @@
+<%= form_with(model: item) do |form| %>
+  <% if item.errors.any? %>
+    <div style="color: red;">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+      <ul>
+        <% item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :content %><br>
+    <%= form.text_area :content, rows: 5 %>
+  </div>
+
+  <div>
+    <%= form.label :tag_names, "Tags (comma separated)" %><br>
+    <%= form.text_field :tag_names, placeholder: "e.g. ruby, rails, hotwire" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

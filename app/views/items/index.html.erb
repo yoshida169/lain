@@ -2,6 +2,18 @@
 
 <h1>Items</h1>
 
+<% if @tags.any? %>
+  <div style="margin-bottom: 1em;">
+    <strong>Filter by tag:</strong>
+    <%= link_to "All", items_path, style: params[:tag].blank? ? "font-weight: bold;" : "" %>
+    <% @tags.each do |tag| %>
+      |
+      <%= link_to tag.name, items_path(tag: tag.name),
+            style: Array(params[:tag]).include?(tag.name) ? "font-weight: bold;" : "" %>
+    <% end %>
+  </div>
+<% end %>
+
 <div id="items">
   <% @items.each do |item| %>
     <%= render item %>
