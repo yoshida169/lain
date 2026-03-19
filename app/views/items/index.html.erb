@@ -1,26 +1,32 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Items</h1>
+<div class="mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Items</h1>
+</div>
 
 <% if @tags.any? %>
-  <div style="margin-bottom: 1em;">
-    <strong>Filter by tag:</strong>
-    <%= link_to "All", items_path, style: params[:tag].blank? ? "font-weight: bold;" : "" %>
+  <div class="flex flex-wrap gap-2 mb-6">
+    <%= link_to "All", items_path,
+          class: "#{params[:tag].blank? ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'} text-sm font-medium px-3 py-1.5 rounded-full transition-colors" %>
     <% @tags.each do |tag| %>
-      |
       <%= link_to tag.name, items_path(tag: tag.name),
-            style: Array(params[:tag]).include?(tag.name) ? "font-weight: bold;" : "" %>
+            class: "#{Array(params[:tag]).include?(tag.name) ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'} text-sm font-medium px-3 py-1.5 rounded-full transition-colors" %>
     <% end %>
   </div>
 <% end %>
 
-<div id="items">
-  <% @items.each do |item| %>
-    <%= render item %>
-    <p>
-      <%= link_to "Show this item", item %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New item", new_item_path %>
+<% if @items.empty? %>
+  <div class="text-center py-16 text-slate-400">
+    <p class="text-lg">No items yet.</p>
+    <p class="text-sm mt-1"><%= link_to "Create your first item", new_item_path, class: "text-indigo-600 hover:underline" %></p>
+  </div>
+<% else %>
+  <div id="items" class="space-y-4">
+    <% @items.each do |item| %>
+      <div class="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-shadow">
+        <%= render item %>
+        <div class="mt-3 pt-3 border-t border-slate-100">
+          <%= link_to "View →", item, class: "text-sm text-indigo-600 hover:text-indigo-800 font-medium" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
