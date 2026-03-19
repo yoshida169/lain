@@ -1,8 +1,8 @@
-FROM ruby:3.2.5
+FROM ruby:3.2.5-slim
 
 RUN apt-get update -qq && apt-get install -y \
-  default-libmysqlclient-dev \
-  default-mysql-client \
+  build-essential \
+  libpq-dev \
   pkg-config \
   && rm -rf /var/lib/apt/lists/*
 
