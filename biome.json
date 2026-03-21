@@ -1,8 +1,5 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
-	"organizeImports": {
-		"enabled": true
-	},
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -14,7 +11,16 @@
 		"indentStyle": "space",
 		"indentWidth": 2
 	},
+  "assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					 "level": "on"
+				}
+			}
+		}
+  },
 	"files": {
-		"include": ["app/frontend/**/*", "e2e/**/*"]
+		"includes": ["app/frontend/**/*", "e2e/**/*"]
 	}
 }
