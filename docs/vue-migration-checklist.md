@@ -2,27 +2,29 @@
 
 Hotwire (Turbo + Stimulus) + Importmap から Vue.js + Vite へ段階的に移行するためのチェックリスト。
 
-## Phase 1: 基盤構築（Node.js + Vite + ツールチェーン）
+## Phase 1: 基盤構築（Node.js + Vite + ツールチェーン）✅
 
 ユーザー影響なし。ビルド基盤のみ整備する。
 
-- [ ] Dockerfile に Node.js 20 を追加
-- [ ] `package.json` を作成（vue, vite, @vitejs/plugin-vue, typescript, tailwindcss, postcss, autoprefixer, biome, vitest, playwright）
-- [ ] `vite_rails` gem を Gemfile に追加
-- [ ] `bundle install` + `npm install` 実行
-- [ ] `vite.config.ts` を作成
-- [ ] `tsconfig.json` を作成
-- [ ] `biome.json` を作成
-- [ ] `postcss.config.js` を作成
-- [ ] `tailwind.config.js` を作成（content に `app/views/**/*.erb` と `app/frontend/**/*.vue` を指定）
-- [ ] `app/frontend/entrypoints/application.ts` を作成（最小限の確認用コード）
-- [ ] `app/frontend/style.css` を作成（Tailwind ディレクティブ）
-- [ ] `app/views/layouts/application.html.erb` に `vite_javascript_tag` / `vite_stylesheet_tag` を追加
-- [ ] `docker-compose.yml` を更新（Vite dev server 起動を追加）
-- [ ] `.github/workflows/ci.yml` に Node.js セットアップ、`npm ci`、`vite build`、`biome check` を追加
-- [ ] `.gitignore` に Node.js 関連エントリを追加
-- [ ] 動作確認：アプリが従来通り動作 + ブラウザコンソールに Vite 出力
-- [ ] `tailwindcss-rails` gem を Gemfile から削除（Vite 経由の Tailwind が動作確認できた後）
+- [x] Dockerfile に Node.js 24 を追加（非 root ユーザー `app` で実行）
+- [x] `vite_rails` gem を Gemfile に追加 → `bundle exec vite install` で自動生成
+- [x] `package.json` を作成（vue, vite, @vitejs/plugin-vue, typescript, tailwindcss, @tailwindcss/vite, biome, vitest, playwright 等）
+- [x] `bundle install` + `npm install` 実行
+- [x] `vite.config.ts` を更新（vue + @tailwindcss/vite プラグイン追加）
+- [x] `config/vite.json` の `sourceCodeDir` を `app/frontend` に変更、`host: "0.0.0.0"` を追加（Docker HMR 対応）
+- [x] `tsconfig.json` を作成
+- [x] `biome.json` を作成（Biome v2 形式）
+- [x] `app/frontend/style.css` を作成（`@import "tailwindcss"` + `@source "../views/**/*.erb"`）
+- [x] `app/frontend/entrypoints/application.js` を作成（style.css を import）
+- [x] `app/views/layouts/application.html.erb` に `vite_client_tag` / `vite_javascript_tag` を追加、`tailwind` stylesheet タグを削除
+- [x] `docker-compose.yml` を更新（`bin/vite dev` 起動、ポート 3036 公開）
+- [x] `.github/workflows/ci.yml` に Node.js セットアップ、`npm ci`、`vite build`、`biome check` を追加
+- [x] `tailwindcss-rails` gem を Gemfile から削除
+- [x] 動作確認：スタイル適用済み・HMR 動作・CI グリーン
+
+> **学び:**
+> - Tailwind v4 は `tailwind.config.js` 不要。`@source` ディレクティブで ERB ファイルを指定する
+> - Docker 内 Vite HMR は `config/vite.json` に `"host": "0.0.0.0"` が必要
 
 ## Phase 2: API レイヤー構築
 
