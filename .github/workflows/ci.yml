@@ -40,11 +40,19 @@ jobs:
           ruby-version: "3.2.5"
           bundler-cache: true
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "npm"
+
       - name: Set up database
         run: bin/rails db:create db:migrate
 
-      - name: Build Tailwind CSS
-        run: bin/rails tailwindcss:build
+      - name: Build Vite Assets
+        run: bin/vite build
 
+      - name: Lint (Biome)
+        run: npx biome check 
       - name: Run RSpec
         run: bundle exec rspec
