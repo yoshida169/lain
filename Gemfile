@@ -30,6 +30,8 @@ gem "jbuilder"
 # Tailwind CSS (standalone binary, no Node.js required)
 gem "tailwindcss-rails"
 
+gem "vite_rails"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
