@@ -20,6 +20,11 @@
       }
     }
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "files": {
     "includes": ["app/frontend/**/*", "e2e/**/*"]
   }
