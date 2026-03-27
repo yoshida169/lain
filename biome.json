@@ -27,7 +27,6 @@
     }
   },
   "files": {
-    "includes": ["app/frontend/**/*", "e2e/**/*"],
-    "ignore": ["app/frontend/**/*.vue"]
+    "includes": ["app/frontend/**/*", "!app/frontend/**/*.vue", "e2e/**/*"]
   }
 }
