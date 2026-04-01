@@ -12,7 +12,7 @@ export function useItems() {
     error.value = null;
     try {
       items.value = await itemsApi.index(params);
-    } catch (e) {
+    } catch (_e) {
       error.value = "取得に失敗しました";
     } finally {
       loading.value = false;
@@ -24,7 +24,7 @@ export function useItems() {
     error.value = null;
     try {
       item.value = await itemsApi.show(id);
-    } catch (e) {
+    } catch (_e) {
       error.value = "取得に失敗しました";
     } finally {
       loading.value = false;
