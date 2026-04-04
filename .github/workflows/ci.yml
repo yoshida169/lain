@@ -57,6 +57,16 @@ jobs:
         run: bin/vite build
 
       - name: Lint (Biome)
-        run: npx biome check 
+        run: npx biome check
+
+      - name: Run Vitest
+        run: npm test
+
       - name: Run RSpec
         run: bundle exec rspec
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright E2E tests
+        run: npx playwright test
