@@ -82,6 +82,22 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(response).to have_http_status(:created)
       expect(Item.last.tags.map(&:name)).to match_array(["ruby", "rails"])
     end
+
+    it "アイテム作成時に WebSocket メッセージをブロードキャストする" do
+      expect {
+        post api_v1_items_path,
+          params: { item: { title: "New Item", content: "Content", tag_names: "ruby" } },
+          as: :json
+      }.to have_broadcasted_to("items_channel").with(
+        hash_including(
+          event: "created",
+          item: hash_including(
+            title: "New Item",
+            content: "Content"
+          )
+        )
+      )
+    end
   end
 
   describe "PATCH /api/v1/items/:id" do
@@ -107,6 +123,23 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(response).to have_http_status(:ok)
       expect(item.reload.tags.map(&:name)).to eq(["rails"])
     end
+
+    it "アイテム更新時に WebSocket メッセージをブロードキャストする" do
+      item = create(:item, title: "Old Title")
+      expect {
+        patch api_v1_item_path(item),
+          params: { item: { title: "New Title" } },
+          as: :json
+      }.to have_broadcasted_to("items_channel").with(
+        hash_including(
+          event: "updated",
+          item: hash_including(
+            id: item.id,
+            title: "New Title"
+          )
+        )
+      )
+    end
   end
 
   describe "DELETE /api/v1/items/:id" do
@@ -126,6 +159,18 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect {
         delete api_v1_item_path(item), as: :json
       }.to change(ItemTag, :count).by(-1)
+    end
+
+    it "アイテム削除時に WebSocket メッセージをブロードキャストする" do
+      item = create(:item)
+      expect {
+        delete api_v1_item_path(item), as: :json
+      }.to have_broadcasted_to("items_channel").with(
+        hash_including(
+          event: "deleted",
+          item: hash_including(id: item.id)
+        )
+      )
     end
   end
 end
