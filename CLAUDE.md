@@ -20,15 +20,15 @@ Docker Compose で DB と Rails サーバーを一括起動する。
 ```bash
 # 初回セットアップ
 docker compose build
-docker compose run --rm web bin/rails db:create db:migrate
+docker compose run --rm app bin/rails db:create db:migrate
 
 # サーバー起動
 docker compose up
 
 # コンテナ内でコマンド実行
-docker compose run --rm web bin/rails console
-docker compose run --rm web bin/rails db:migrate
-docker compose run --rm web bin/rails test
+docker compose run --rm app bin/rails console
+docker compose run --rm app bin/rails db:migrate
+docker compose run --rm app bin/rails test
 ```
 
 DB 接続情報（`docker-compose.yml` の環境変数で設定）:
@@ -40,11 +40,11 @@ DB 接続情報（`docker-compose.yml` の環境変数で設定）:
 
 ```bash
 # テスト全実行
-docker compose run --rm web bundle exec rspec
+docker compose run --rm app bundle exec rspec
 
 # 単一テストファイル実行
-docker compose run --rm web bundle exec rspec spec/models/item_spec.rb
+docker compose run --rm app bundle exec rspec spec/models/item_spec.rb
 
 # 特定の行のみ実行
-docker compose run --rm web bundle exec rspec spec/models/item_spec.rb:10
+docker compose run --rm app bundle exec rspec spec/models/item_spec.rb:10
 ```

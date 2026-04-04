@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
 
-  web:
+  app:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bin/vite dev & bundle exec rails s -b '0.0.0.0'"
     volumes:
