@@ -29,6 +29,9 @@ docker compose up
 docker compose run --rm app bin/rails console
 docker compose run --rm app bin/rails db:migrate
 docker compose run --rm app bin/rails test
+
+# lint
+docker compose run --rm app npx biome check
 ```
 
 DB 接続情報（`docker-compose.yml` の環境変数で設定）:
