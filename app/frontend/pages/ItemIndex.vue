@@ -4,10 +4,31 @@ import ItemCard from "../components/items/ItemCard.vue";
 import TagFilter from "../components/items/TagFilter.vue";
 import { useItems } from "../composables/useItems";
 import { useTags } from "../composables/useTags";
+import { useItemsChannel } from "../composables/useItemsChannel";
 
 const { items, loading, error, fetchItems } = useItems();
 const { tags, fetchTags } = useTags();
 const selectedTags = ref<string[]>([]);
+
+useItemsChannel({
+  onCreated(item) {
+    if (
+      selectedTags.value.length === 0 ||
+      item.tags.some((t) => selectedTags.value.includes(t.name))
+    ) {
+      items.value = [item, ...items.value];
+    }
+  },
+  onUpdated(updated) {
+    const index = items.value.findIndex((i) => i.id === updated.id);
+    if (index !== -1) {
+      items.value[index] = updated;
+    }
+  },
+  onDeleted(id) {
+    items.value = items.value.filter((i) => i.id !== id);
+  },
+});
 
 onMounted(async () => {
   await Promise.all([fetchItems(), fetchTags()]);

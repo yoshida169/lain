@@ -220,6 +220,7 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redis (4.8.1)
     regexp_parser (2.9.2)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -301,6 +302,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0, < 8.0)
   rails (~> 7.2.0)
+  redis (~> 4.0)
   rspec-rails (~> 6.1)
   selenium-webdriver
   sprockets-rails

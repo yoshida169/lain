@@ -18,6 +18,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
   def create
     @item = Item.new(item_params)
     if @item.save
+      ActionCable.server.broadcast("items_channel", { event: "created", item: item_json(@item) })
       render json: item_json(@item), status: :created
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
@@ -26,6 +27,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   def update
     if @item.update(item_params)
+      ActionCable.server.broadcast("items_channel", { event: "updated", item: item_json(@item) })
       render json: item_json(@item)
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
@@ -33,7 +35,9 @@ class Api::V1::ItemsController < Api::V1::BaseController
   end
 
   def destroy
+    id = @item.id
     @item.destroy
+    ActionCable.server.broadcast("items_channel", { event: "deleted", item: { id: id } })
     head :no_content
   end
 
