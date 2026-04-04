@@ -1,7 +1,16 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("タグフィルタリング", () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, request }) => {
+    // 既存のテスト用データを削除
+    const res = await request.get("/api/v1/items");
+    const items = await res.json();
+    for (const item of items) {
+      if (item.title.startsWith("タグフィルタ用")) {
+        await request.delete(`/api/v1/items/${item.id}`);
+      }
+    }
+
     // テスト用 Item を作成
     await page.goto("/items/new");
     await page.getByLabel("タイトル").fill("タグフィルタ用 Item A");

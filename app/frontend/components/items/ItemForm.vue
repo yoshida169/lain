@@ -23,12 +23,13 @@ function handleSubmit() {
   });
 }
 </script>
-  
+
 <template>
   <form class="space-y-4" @submit.prevent="handleSubmit">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">タイトル</label>
+      <label for="item-title" class="block text-sm font-medium text-gray-700 mb-1">タイトル</label>
       <input
+        id="item-title"
         v-model="title"
         type="text"
         required
@@ -36,18 +37,20 @@ function handleSubmit() {
       />
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">内容</label>
+      <label for="item-content" class="block text-sm font-medium text-gray-700 mb-1">内容</label>
       <textarea
+        id="item-content"
         v-model="content"
         rows="6"
         class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
       />
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
+      <label for="item-tag-names" class="block text-sm font-medium text-gray-700 mb-1">
         タグ <span class="text-gray-400 font-normal">（カンマ区切り）</span>
       </label>
       <input
+        id="item-tag-names"
         v-model="tagNames"
         type="text"
         placeholder="例: ruby, rails, memo"
@@ -63,7 +66,7 @@ function handleSubmit() {
         {{ loading ? "保存中..." : "保存" }}
       </button>
       <RouterLink
-        to="/vue/items"
+        to="/items"
         class="px-4 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50"
       >キャンセル</RouterLink>
     </div>

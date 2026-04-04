@@ -1,6 +1,17 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Items CRUD", () => {
+  test.beforeEach(async ({ request }) => {
+    // 既存のテスト用データを削除
+    const res = await request.get("/api/v1/items");
+    const items = await res.json();
+    for (const item of items) {
+      if (item.title.startsWith("E2Eテスト")) {
+        await request.delete(`/api/v1/items/${item.id}`);
+      }
+    }
+  });
+
   test("Item を作成・表示・編集・削除できる", async ({ page }) => {
     // 一覧ページ
     await page.goto("/");
@@ -18,7 +29,7 @@ test.describe("Items CRUD", () => {
     // 詳細ページに遷移
     await expect(page.getByRole("heading", { name: "E2Eテスト Item" })).toBeVisible();
     await expect(page.getByText("Playwright で作成したアイテム")).toBeVisible();
-    await expect(page.getByText("e2e")).toBeVisible();
+    await expect(page.getByText("e2e", { exact: true })).toBeVisible();
 
     // 編集
     await page.getByRole("link", { name: "編集" }).click();
