@@ -4,9 +4,9 @@ class Api::V1::ItemsController < Api::V1::BaseController
   def index
     if params[:tag].present?
       tag_names = Array(params[:tag])
-      items = Item.joins(:tags) .where(tags: { name: tag_names }).distinct
+      items = Item.includes(:tags).joins(:tags).where(tags: { name: tag_names }).distinct
     else
-      items = Item.all
+      items = Item.includes(:tags)
     end
     render json: items.map { |item| item_json(item) }
   end
