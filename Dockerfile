@@ -8,7 +8,7 @@ RUN apt-get update -qq && apt-get install -y \
   && curl -fsSL https://deb.nodesource.com/setup_24.x -o nodesource_setup.sh \
   && bash nodesource_setup.sh \
   && apt install -y nodejs \
-  && rm -rf /var/lib/apt/lists/* \ 
+  && rm -rf /var/lib/apt/lists/* \
   && useradd -m -u 1000 app
 
 WORKDIR /app
