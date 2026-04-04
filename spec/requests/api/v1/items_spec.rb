@@ -28,6 +28,22 @@ RSpec.describe "Api::V1::Items", type: :request do
         expect(json.map { |i| i["title"] }).to include("Rubyの話")
         expect(json.map { |i| i["title"] }).not_to include("Pythonの話")
       end
+
+      it "複数タグを渡すと OR フィルタリングされる" do
+        tag_ruby  = create(:tag, name: "ruby")
+        tag_rails = create(:tag, name: "rails")
+        item_ruby  = create(:item, title: "Rubyの話")
+        item_rails = create(:item, title: "Railsの話")
+        item_other = create(:item, title: "Pythonの話")
+        create(:item_tag, item: item_ruby,  tag: tag_ruby)
+        create(:item_tag, item: item_rails, tag: tag_rails)
+
+        get api_v1_items_path, params: { tag: ["ruby", "rails"] }
+        json = response.parsed_body
+        titles = json.map { |i| i["title"] }
+        expect(titles).to include("Rubyの話", "Railsの話")
+        expect(titles).not_to include("Pythonの話")
+      end
     end
   end
 
@@ -55,6 +71,17 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(response).to have_http_status(:created)
       expect(response.parsed_body["title"]).to eq("New Item")
     end
+
+    it "tag_names を含めてタグを作成する" do
+      expect {
+        post api_v1_items_path,
+          params: { item: { title: "New Item", content: "Content", tag_names: "ruby, rails" } },
+          as: :json
+      }.to change(Item, :count).by(1)
+
+      expect(response).to have_http_status(:created)
+      expect(Item.last.tags.map(&:name)).to match_array(["ruby", "rails"])
+    end
   end
 
   describe "PATCH /api/v1/items/:id" do
@@ -67,6 +94,19 @@ RSpec.describe "Api::V1::Items", type: :request do
       expect(response).to have_http_status(:ok)
       expect(item.reload.title).to eq("New Title")
     end
+
+    it "tag_names を更新するとタグが差し替わる" do
+      tag  = create(:tag, name: "ruby")
+      item = create(:item)
+      create(:item_tag, item: item, tag: tag)
+
+      patch api_v1_item_path(item),
+        params: { item: { tag_names: "rails" } },
+        as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(item.reload.tags.map(&:name)).to eq(["rails"])
+    end
   end
 
   describe "DELETE /api/v1/items/:id" do
@@ -77,6 +117,15 @@ RSpec.describe "Api::V1::Items", type: :request do
       }.to change(Item, :count).by(-1)
 
       expect(response).to have_http_status(:no_content)
+    end
+
+    it "関連する item_tags も削除される" do
+      item = create(:item)
+      create(:item_tag, item: item, tag: create(:tag))
+
+      expect {
+        delete api_v1_item_path(item), as: :json
+      }.to change(ItemTag, :count).by(-1)
     end
   end
 end
