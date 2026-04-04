@@ -4,19 +4,19 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/vue/items",
+      path: "/items",
       component: () => import("../pages/ItemIndex.vue"),
     },
     {
-      path: "/vue/items/new",
+      path: "/items/new",
       component: () => import("../pages/ItemNew.vue"),
     },
     {
-      path: "/vue/items/:id",
+      path: "/items/:id",
       component: () => import("../pages/ItemShow.vue"),
     },
     {
-      path: "/vue/items/:id/edit",
+      path: "/items/:id/edit",
       component: () => import("../pages/ItemEdit.vue"),
     },
   ],

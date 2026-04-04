@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :items
-
   namespace :api do
     namespace :v1 do
       resources :items
@@ -8,6 +6,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'vue/*path', to: 'vue#index'
-  get 'vue', to: 'vue#index'
+  get '/items', to: 'vue#index'
+  get '/items/*path', to: 'vue#index'
+  root to: 'vue#index'
 end
