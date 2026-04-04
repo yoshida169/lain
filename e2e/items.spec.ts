@@ -27,7 +27,9 @@ test.describe("Items CRUD", () => {
     await page.getByRole("button", { name: "保存" }).click();
 
     // 詳細ページに遷移
-    await expect(page.getByRole("heading", { name: "E2Eテスト Item" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "E2Eテスト Item" }),
+    ).toBeVisible();
     await expect(page.getByText("Playwright で作成したアイテム")).toBeVisible();
     await expect(page.getByText("e2e", { exact: true })).toBeVisible();
 
@@ -36,11 +38,15 @@ test.describe("Items CRUD", () => {
     await page.getByLabel("タイトル").fill("E2Eテスト Item（編集済み）");
     await page.getByRole("button", { name: "保存" }).click();
 
-    await expect(page.getByRole("heading", { name: "E2Eテスト Item（編集済み）" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "E2Eテスト Item（編集済み）" }),
+    ).toBeVisible();
 
     // 削除
     await page.getByRole("button", { name: "削除" }).click();
     await expect(page).toHaveURL("/items");
-    await expect(page.getByText("E2Eテスト Item（編集済み）")).not.toBeVisible();
+    await expect(
+      page.getByText("E2Eテスト Item（編集済み）"),
+    ).not.toBeVisible();
   });
 });
