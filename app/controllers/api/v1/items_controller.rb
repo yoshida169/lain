@@ -41,7 +41,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   def set_item
     @item = Item.find_by(id: params[:id])
-    render_not_found unless @item
+    return render_not_found unless @item
   end
 
   def item_params
