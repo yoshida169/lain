@@ -14,7 +14,7 @@ onMounted(() => {
 async function handleDelete() {
   if (!item.value) return;
   await deleteItem(item.value.id);
-  router.push("/vue/items");
+  router.push("/items");
 }
 </script>
 
@@ -27,7 +27,7 @@ async function handleDelete() {
         <h1 class="text-2xl font-bold">{{ item.title }}</h1>
         <div class="flex gap-2">
           <RouterLink
-            :to="`/vue/items/${item.id}/edit`"
+            :to="`/items/${item.id}/edit`"
             class="px-3 py-1 text-sm border rounded hover:bg-gray-50"
           >編集</RouterLink>
           <button
@@ -44,7 +44,7 @@ async function handleDelete() {
         >{{ tag.name }}</span>
       </div>
       <p class="whitespace-pre-wrap text-gray-800">{{ item.content }}</p>
-      <RouterLink to="/vue/items" class="mt-8 inline-block text-sm text-gray-500 hover:underline">
+      <RouterLink to="/items" class="mt-8 inline-block text-sm text-gray-500 hover:underline">
         ← 一覧に戻る
       </RouterLink>
     </div>

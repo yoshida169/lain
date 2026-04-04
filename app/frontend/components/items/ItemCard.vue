@@ -6,7 +6,7 @@ defineProps<{ item: Item }>();
 
 <template>
   <RouterLink
-    :to="`/vue/items/${item.id}`"
+    :to="`/items/${item.id}`"
     class="block bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
   >
     <h2 class="font-semibold text-gray-900 mb-1 truncate">{{ item.title }}</h2>

@@ -23,7 +23,7 @@ watch(selectedTags, (val) => {
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold">Items</h1>
       <RouterLink
-        to="/vue/items/new"
+        to="/items/new"
         class="px-4 py-2 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700"
       >新規作成</RouterLink>
     </div>

@@ -21,7 +21,7 @@ async function handleSubmit(params: ItemParams) {
   error.value = null;
   try {
     await updateItem(item.value.id, params);
-    router.push(`/vue/items/${item.value.id}`);
+    router.push(`/items/${item.value.id}`);
   } catch {
     error.value = "更新に失敗しました";
   } finally {

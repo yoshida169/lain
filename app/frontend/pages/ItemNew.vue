@@ -15,7 +15,7 @@ async function handleSubmit(params: ItemParams) {
   error.value = null;
   try {
     const item = await createItem(params);
-    router.push(`/vue/items/${item.id}`);
+    router.push(`/items/${item.id}`);
   } catch {
     error.value = "作成に失敗しました";
   } finally {
