@@ -4,6 +4,10 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
+      path: "/",
+      component: () => import("../pages/ItemIndex.vue"),
+    },
+    {
       path: "/items",
       component: () => import("../pages/ItemIndex.vue"),
     },
