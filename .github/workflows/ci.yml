@@ -32,7 +32,7 @@ jobs:
       POSTGRES_HOST: localhost
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -40,11 +40,32 @@ jobs:
           ruby-version: "3.2.5"
           bundler-cache: true
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install npm dependencies
+        run: npm ci
+
       - name: Set up database
         run: bin/rails db:create db:migrate
 
-      - name: Build Tailwind CSS
-        run: bin/rails tailwindcss:build
+      - name: Build Vite Assets
+        run: bin/vite build
+
+      - name: Lint (Biome)
+        run: npx biome check
+
+      - name: Run Vitest
+        run: npm test
 
       - name: Run RSpec
         run: bundle exec rspec
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright E2E tests
+        run: npx playwright test
