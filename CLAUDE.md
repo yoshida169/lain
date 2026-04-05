@@ -73,3 +73,49 @@ npm run e2e
 # lint（Biome）
 docker compose run --rm app npx biome check
 ```
+
+## 注意事項・既知の落とし穴
+
+### npm install はコンテナ内で行う
+
+`node_modules` はホスト（macOS）とコンテナ（Linux）でネイティブバイナリが異なる。
+ホスト側で `npm i` を実行すると Vite dev サーバーがコンテナ内で起動しなくなる（rolldown バインディングエラー）。
+
+```bash
+# NG: ホスト側で実行
+npm install
+
+# OK: コンテナ内で実行
+docker compose run --rm app npm install
+```
+
+### E2Eテストのパターン（Playwright）
+
+**マルチコンテキスト（複数タブ）テスト**
+
+```ts
+// browser フィクスチャを使い、各コンテキストに baseURL を明示する
+const ctxA = await browser.newContext({ baseURL: "http://localhost:3000" });
+const pageA = await ctxA.newPage();
+```
+
+**ページ読み込み完了の待ち方**
+
+`waitForLoadState("networkidle")` は WebSocket 接続が開いていると解決しないことがある。
+代わりに対象 API レスポンスを待つ:
+
+```ts
+await Promise.all([
+  page.waitForResponse((r) => r.url().includes("/api/v1/items") && r.status() === 200),
+  page.goto("/items"),
+]);
+```
+
+**テストデータの作成・削除**
+
+Playwright の `request` フィクスチャは CSRF トークンを送らないため、
+POST/PATCH/DELETE を直接呼ぶと 422 になる（GET は問題なし）。
+テストデータの操作はブラウザ経由（UI 操作）で行うか、API コントローラが
+`skip_before_action :verify_authenticity_token` を設定済みであることを確認する。
+
+> `Api::V1::BaseController` には設定済み。
