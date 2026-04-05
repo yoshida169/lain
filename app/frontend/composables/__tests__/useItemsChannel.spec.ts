@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { useItemsChannel } from "../useItemsChannel";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Item } from "../../api/items";
+import { useItemsChannel } from "../useItemsChannel";
 
 const mockUnsubscribe = vi.fn();
 const mockDisconnect = vi.fn();
